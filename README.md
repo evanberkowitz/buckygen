@@ -1,8 +1,18 @@
-# Guide to using buckygen
+# buckygen
 
-Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
-[Gunnar Brinkmann](mailto:gunnar.brinkmann@ugent.be) and [Brendan McKay](mailto:bdm@cs.anu.edu.au).
+|-:|:-|
+|Author| [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be)
+|in collaboration with|[Gunnar Brinkmann](mailto:gunnar.brinkmann@ugent.be) and [Brendan McKay](mailto:bdm@cs.anu.edu.au)|
+|License| [GPLv3](http://www.gnu.org/licenses/gpl.html)|
+|Orignal source| http://caagt.ugent.be/buckygen/ |
 
+References:
+
+ * G. Brinkmann, J. Goedgebeur and B.D. McKay, *The Generation of Fullerenes*,
+Journal of Chemical Information and Modeling, 52(11):2910-2918, 2012. [arXiv:1207.7010](http://arxiv.org/abs/1207.7010) [DOI:10.1021/ci300310](http://dx.doi.org/10.1021/ci3003107).
+
+ * J. Goedgebeur and B.D. McKay, Recursive generation of IPR fullerenes,
+Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](http://arxiv.org/abs/1501.02680) [DOI:10.1007/s10910-015-0513-7](http://dx.doi.org/10.1007/s10910-015-0513-7)
 
 ## INTRODUCTION.
 
