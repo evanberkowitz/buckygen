@@ -1,2 +1,541 @@
-# buckygen
-Generate fullerenes
+#Guide to using buckygen
+
+Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
+[Gunnar Brinkmann](mailto:gunnar.brinkmann@ugent.be) and [Brendan McKay](mailto:bdm@cs.anu.edu.au).
+
+
+##INTRODUCTION.
+
+  `buckygen` is a program for the efficient generation of all nonisomorphic
+  fullerenes.  These are triangulations where all vertices have degree
+  5 or 6.  Or if the dual representation is used: cubic plane graphs
+  where all faces are pentagons or hexagons.  Euler's formula implies
+  that a fullerene contains exactly 12 pentagonal faces.
+
+  The program can also be used to generate IPR fullerenes, these are 
+  fullerenes which have no adjacent degree 5 vertices.
+
+  `buckygen` has been tested on Linux and Mac OS X.
+
+
+##INSTALLING `buckygen`.
+
+  The latest version of `buckygen` can be obtained from
+     http://caagt.ugent.be/buckygen/
+
+  After extracting the `buckygen` zipfile, compile `buckygen`
+  using the command "make".  Alternatively you can also
+  compile it using:
+
+    cc -O4 buckygen.c -o buckygen
+
+  Important: `splay.c` must be in the same directory as `buckygen.c`
+
+
+##RUNNING `buckygen`.
+
+  An overview of all options can also be found by executing `./buckygen`.
+  Most parameters are the same as in `plantri`.  More information about
+  plantri can be found here at [http://cs.anu.edu.au/~bdm/plantri/](http://cs.anu.edu.au/~bdm/plantri/)
+
+  Usage: `./buckygen [-uagsh -IS#rq -odV -v] n [res/mod] [outfile]`
+
+  The only compulsory parameter is the number of vertices n.
+  By default the generated fullerenes encoded in `planar_code` and 
+  written to `stdout`.  The output formats are described below.
+
+  An example of a `buckygen` run is:  
+
+    ./buckygen 32 fuller_32
+
+  which generates all triangulations with 32 vertices where all 
+  vertices have degree 5 or 6 and writes them to a file with
+  name `fuller_32`.  The number of vertices "32" can also be given 
+  as "60d" (the suffix 'd' means 'dual') in which case it is
+  converted by adding 4 then dividing by 2: (60+4)/2 = 32.
+  This calculation yields the number of faces of the triangulation,
+  which is the number of vertices in the dual cubic graph.
+  More examples will be given below.
+
+  Apart from the one compulsory parameter, there are three types of optional
+  parameters:
+
+  *  SWITCHES are introduced by a `-` character.  If there are more than one
+     they can be arbitrarily concatenated or separated.  They can also appear
+     anywhere.  For example, these command lines are all equivalent:
+
+        buckygen 32 -S12 -d -u
+        buckygen 32 -S12du
+        buckygen 32 -udS12
+        buckygen -ud 32 -S12
+
+     The meanings of the switches are explained in the next sections.
+
+  *  An OUTPUT FILE `outfile` can be given, if you want the graphs to be sent somewhere
+     other than standard output.  Information other than graphs (such as
+     statistics) is written to the standard error stream.
+
+  *  A RES/MOD pair `res/mod` can be given to split the generation in MOD (more or
+     less equally big) parts. This pair comprises two integers with
+     '/' between, such as 13/100.  The first integer can be from 0 to one
+     less than the second number.  In this example part 13 will be executed.
+     Splitting the generation causes a small overhead, so the sum of the 
+     timings for the small parts will be slightly more than the time needed
+     to run the same case without modulo.  But this overhead is usually 
+     negligible compared to the total execution time.
+     The normal rules for modulo calculation apply.  So '0/2' will give the
+     same result as '0/4' and '2/4' combined.
+
+  Parameters and switches may appear in any order with one exception:
+  the compulsory parameter (number of vertices) must precede any
+  output file or res/mod parameters.
+
+
+##SWITCHES.
+
+ * `-S#`  Output all fullerenes with 'i' vertices (# <= i <= n) instead of 
+       only the fullerenes with 'n' vertices.  Since `buckygen` recursively
+       constructs all fullerenes from smaller fullerenes, using switch `-S`
+       only gives a minor overhead.
+
+ * `-I`   Only generate and output the IPR fullerenes.  In this case a
+       specialized generator for IPR fullerenes is used, so this 
+       is done quite efficiently.
+
+ * `-d`   Causes the dual graph to be written instead of the original graph.
+       The dual graph of a triangulation where all vertices have degree
+       5 or 6 is a cubic plane graph where all faces are pentagons or 
+       hexagons.
+       Note that it is applied only at the output stage.  All other switches
+       refer to the original graph before the dual is taken.  For example,
+       -S12 (start output from 12 vertices) refers to the original graph 
+       (so to a triangulation) and not to the dual.
+
+ * `-r`   Tests if the generated fullerenes have spirals starting at a 
+       degree 5 or a degree 6 vertex. Fullerenes which do not have a
+       spiral starting at a degree 5 vertex are written to a file named
+       "`No_pentagon_spiral_x`". And fullerenes which do not have a spiral
+       starting at any vertex of the fullerene are written to a file named
+       "`No_spiral_x`".
+
+ * `-o`   Normally, one member of each isomorphism class is written.  If this
+       switch is given, one member of each orientation preserving (O-P) 
+       isomorphism class is written.
+       Since `graph6` and `sparse6` formats don't encode the imbedding anyway,
+       this switch is ignored for output purposes if you use `-g` or `-s`.
+
+ * `-V`   Only output graphs with non-trivial group.  If `-o` is given, the
+       O-P group is used.
+
+ * `-v`   `buckygen` will always tell you (by a message to standard error) the
+       number of graphs that were produced.  If you specify `-v`, it might
+       tell you some additional statistical information.  For example, if
+       you use `-o`, `-v` will cause it to also inform you of the number of
+       isomorphism classes as well as the number of isomorphism classes
+       which are O-P isomorphic to their mirror images.
+
+  `-q`   Work in 'quiet' mode: does not output any information to the standard error stream.
+
+
+##OUTPUT FORMATS.
+
+  `buckygen` can write graphs in a variety of different formats.
+
+ * `PLANAR CODE` is the default format.  It is the preferred format if you plan
+     to feed the graph into a program that needs the imbedding, and also
+     convenient if you don't need the imbedding.  However, it uses characters
+     which are not printable so it is not suitable for looking at by eye.
+
+ * `ASCII CODE` is a human-readable version of planar code.  The vertices of
+     the graph are named by ASCII characters starting with 'a'.  Example:
+        7 bcdefg,agfdc,abd,acbfe,adf,aedbg,afb
+     This is a graph with 7 vertices a,b,c,d,e,f,g.  The neighbours of
+     'a' in clockwise order are b,c,d,e,f,g; and so on.  Each graph occupies
+     one line of output.  Ascii code is convenient if you just want to draw
+     a few graphs by hand.
+     To select ascii code use `-a`.
+
+ * `GRAPH6` is a compact code for the abstract structure of a graph.
+     The imbedding is not represented, so this is not a suitable code to
+     use if you want the imbedding.  It is also restricted to simple
+     graphs.  graph6 is one of the formats supported by Brendan McKay's
+     'gtools' package.  Each graph occupies one line.
+     To select graph6 code use `-g`.
+
+ * `SPARSE6` is a compact code for the abstract structure of a graph which is
+     optimized for sparse graphs.  If you don't want the imbedding and are
+     dealing with cubic graphs of 20 or more vertices, `sparse6` is a good
+     choice.  `sparse6` is one of the formats supported by Brendan McKay's
+     `gtools` package.  Each graph occupies one line.
+     To select `sparse6` code use `-s`.
+
+Each of those formats except for ascii code also has a standard header,
+  which is written to the output at the beginning:
+
+      format           header            written by default?
+    planar code     >>planar_code<<             yes
+      graph6        >>graph6<<                  no
+     sparse6        >>sparse6<<                 no
+
+  In each case the header is written with no end-of-line characters after
+  it (for portability reasons).  To write a header when the default is not
+  to, or vice-versa, use `-h`.
+
+  If you only want to count the graphs and not write them, use `-u` to 
+  select no output.
+
+  Details of these formats is given in Appendices A and B.
+
+
+##EXAMPLES.
+
+  Below are some examples of possible execution parameters.
+  
+    ./buckygen 65 -S32 -I
+    
+  Generates and outputs all IPR fullerenes with at most 65 and at least 32
+  vertices and writes them to the standard output stream in planar code.
+
+    ./buckygen 55 -S20d fuller_55_20
+  
+  Generates all fullerenes with at most 55 and at least 20 vertices
+  and writes their dual graph (i.e. a cubic graph) to a file with name
+  "`fuller_55_20`".
+
+    ./buckygen 52 -ru
+  Generates all fullerenes with 52 vertices, but does not output them.
+  Also checks if the fullerenes have a spiral starting at a pentagon
+  or a hexagon.
+
+    ./buckygen 132 -Ig 10/200
+  Splits the generation of all IPR fullerenes with 132 vertices in 200 parts
+  and executes part 10 and outputs the fullerenes in `graph6` format to
+  the standard output stream.
+
+
+## APPENDIX A.  Definition of `PLANAR CODE`.
+
+  `PLANAR CODE is` the default output format for buckygen.  The vertices of
+  the graph are numbered starting at 1.  `PLANAR CODE` represents the graph
+  by a series of bytes, whose unsigned numerical values (0..255) are
+  significant.  The first byte gives the number of vertices n.  Then there
+  are n sections, where section v contains the neighbours of vertex v in
+  clockwise order followed by a zero byte.   There is no end-of-line
+  character appended.
+
+  In addition to the encodings of graphs, a `PLANAR CODE` file by default
+  begins with the 15 characters `>>planar_code<<` without end-of-line
+  characters.
+
+
+## APPENDIX B.  Definition of `GRAPH6` and `SPARSE6`.
+
+  All numbers in this description are in decimal unless obviously in
+  binary.  `GRAPH6` and `SPARSE6` are text formats, and a file containing
+  them is a text file.
+
+  Apart from the header, there is one object per line.  Apart from the
+  header and the end-of-line characters, all bytes have a value in the
+  range 63-126 (which are all printable ASCII characters).
+
+  BIT VECTORS:
+
+  A bit vector x of length k can be represented as follows.  
+      Example:  1000101100011100
+
+  (1) Pad on the right with 0 to make the length a multiple of 6.
+      Example:  100010110001110000
+
+  (2) Split into groups of 6 bits each.
+      Example:  100010 110001 110000
+
+  (3) Add 63 to each group, considering them as bigendian binary numbers.
+      Example:  97 112 111
+
+  These values are then stored one per byte.  
+  So, the number of bytes required is ceiling(k/6).
+
+  Let R(x) denote this representation of x as a string of bytes.
+      
+  SMALL NONNEGATIVE INTEGERS:
+ 
+  Let n be an integer in the range 0-262143 (262143 = 2^18-1).
+
+  If 0 <= n <= 62, define N(n) to be the single byte n+63.
+  If n >= 63, define N(n) to be the four bytes 126 R(x), where
+    x is the bigendian 18-bit binary form of n.
+
+  Examples:  N(30) = 93
+             N(12345) = N(000011 000000 111001) = 126 69 63 120
+
+
+  GRAPH6 format:
+
+  Suppose G has n vertices.  Write the upper triangle of the adjacency
+  matrix of G as a bit vector x of length n(n-1)/2, using the ordering
+  (0,1),(0,2),(1,2),(0,3),(1,3),(2,3),...,(n-1,n).
+
+  Then the graph is represented as  N(n) R(x).
+
+    Example: Suppose n=5 and G has edges 0-2, 0-4, 1-3 and 3-4.
+
+       x = 0 10 010 1001
+    
+       Then N(n) = 68 and R(x) = R(010010 100100) = 81 99.
+       So, the graph is  68 81 99.
+
+  Note that GRAPH6 format cannot represent loops or parallel edges.
+
+  SPARSE6 format:
+
+  The encoded graph consists of:
+     (1) The character ':'.   (This is present to distinguish
+                                  the code from GRAPH6 format.)
+     (2) The number of vertices.
+     (3) A list of edges.
+     (4) end-of-line
+
+  Loops and multiple edges are supported, but not directed edges.
+
+  Number of vertices n:  Represented as N(n) like in GRAPH6 format.
+
+  List of edges:
+
+    Let k be the number of bits needed to represent n-1 in binary.
+    The remaining bytes encode a sequence R(z) where
+      z = b[0] x[0] b[1] x[1] b[2] x[2] ... b[m] x[m] 111...
+
+    Each b[i] occupies 1 bit, and each x[i] occupies k bits, and the number
+    of 1's at the end is the least needed to make the total length a 
+    multiple of 6.
+
+    The vertices of the graph are 0..n-1.
+    The edges encoded by this sequence are determined thus:
+
+       v = 0
+       for i from 0 to m do
+          if b[i] = 1 then v = v+1 endif;
+          if x[i] > v then v = x[i] else output {x[i],v} endif
+       endfor
+
+    Example:    :Fa@x^
+    ':' indicates sparse6 format.
+    Subtract 63 from the other bytes and write them in binary, six bits each.
+         000111 100010 000001 111001 011111
+    The first byte is not 63, so it is n.  n=7
+    n-1 needs 3 bits (k=3).  Write the other bits in groups of 1 and k:
+      1 000  1 000  0 001  1 110   0 101  1 111
+    This is the b/x sequence  1,0 1,0 0,1 1,6 0,5 1,7.
+    The 1,7 at the end is just padding.
+    The remaining pairs give the edges 0-1 1-2 5-6.
+
+
+APPENDIX C.  Fullerene Counts.
+
+  In this section we the counts of the fullerenes which were generated
+  with buckygen.
+
+  The column headings in these tables are:
+
+  nv = number of vertices (or faces in the dual)
+  nf = number of faces (or vertices in the dual)
+
+|    nv |   nf |   fullerenes | IPR fullerenes |
+|------:|-----:|-------------:|---------------:|
+|    20 |   12 |            1 |              0 |
+|    22 |   13 |            0 |              0 |
+|    24 |   14 |            1 |              0 |
+|    26 |   15 |            1 |              0 |
+|    28 |   16 |            2 |              0 |
+|    30 |   17 |            3 |              0 |
+|    32 |   18 |            6 |              0 |
+|    34 |   19 |            6 |              0 |
+|    36 |   20 |           15 |              0 |
+|    38 |   21 |           17 |              0 |
+|    40 |   22 |           40 |              0 |
+|    42 |   23 |           45 |              0 |
+|    44 |   24 |           89 |              0 |
+|    46 |   25 |          116 |              0 |
+|    48 |   26 |          199 |              0 |
+|    50 |   27 |          271 |              0 |
+|    52 |   28 |          437 |              0 |
+|    54 |   29 |          580 |              0 |
+|    56 |   30 |          924 |              0 |
+|    58 |   31 |         1205 |              0 |
+|    60 |   32 |         1812 |              1 |
+|    62 |   33 |         2385 |              0 |
+|    64 |   34 |         3465 |              0 |
+|    66 |   35 |         4478 |              0 |
+|    68 |   36 |         6332 |              0 |
+|    70 |   37 |         8149 |              1 |
+|    72 |   38 |        11190 |              1 |
+|    74 |   39 |        14246 |              1 |
+|    76 |   40 |        19151 |              2 |
+|    78 |   41 |        24109 |              5 |
+|    80 |   42 |        31924 |              7 |
+|    82 |   43 |        39718 |              9 |
+|    84 |   44 |        51592 |             24 |
+|    86 |   45 |        63761 |             19 |
+|    88 |   46 |        81738 |             35 |
+|    90 |   47 |        99918 |             46 |
+|    92 |   48 |       126409 |             86 |
+|    94 |   49 |       153493 |            134 |
+|    96 |   50 |       191839 |            187 |
+|    98 |   51 |       231017 |            259 |
+|   100 |   52 |       285914 |            450 |
+|   102 |   53 |       341658 |            616 |
+|   104 |   54 |       419013 |            823 |
+|   106 |   55 |       497529 |           1233 |
+|   108 |   56 |       604217 |           1799 |
+|   110 |   57 |       713319 |           2355 |
+|   112 |   58 |       860161 |           3342 |
+|   114 |   59 |      1008444 |           4468 |
+|   116 |   60 |      1207119 |           6063 |
+|   118 |   61 |      1408553 |           8148 |
+|   120 |   62 |      1674171 |          10774 |
+|   122 |   63 |      1942929 |          13977 |
+|   124 |   64 |      2295721 |          18769 |
+|   126 |   65 |      2650866 |          23589 |
+|   128 |   66 |      3114236 |          30683 |
+|   130 |   67 |      3580637 |          39393 |
+|   132 |   68 |      4182071 |          49878 |
+|   134 |   69 |      4787715 |          62372 |
+|   136 |   70 |      5566949 |          79362 |
+|   138 |   71 |      6344698 |          98541 |
+|   140 |   72 |      7341204 |         121354 |
+|   142 |   73 |      8339033 |         151201 |
+|   144 |   74 |      9604411 |         186611 |
+|   146 |   75 |     10867631 |         225245 |
+|   148 |   76 |     12469092 |         277930 |
+|   150 |   77 |     14059174 |         335569 |
+|   152 |   78 |     16066025 |         404667 |
+|   154 |   79 |     18060979 |         489646 |
+|   156 |   80 |     20558767 |         586264 |
+|   158 |   81 |     23037594 |         697720 |
+|   160 |   82 |     26142839 |         836497 |
+|   162 |   83 |     29202543 |         989495 |
+|   164 |   84 |     33022573 |        1170157 |
+|   166 |   85 |     36798433 |        1382953 |
+|   168 |   86 |     41478344 |        1628029 |
+|   170 |   87 |     46088157 |        1902265 |
+|   172 |   88 |     51809031 |        2234133 |
+|   174 |   89 |     57417264 |        2601868 |
+|   176 |   90 |     64353269 |        3024383 |
+|   178 |   91 |     71163452 |        3516365 |
+|   180 |   92 |     79538751 |        4071832 |
+|   182 |   93 |     87738311 |        4690880 |
+|   184 |   94 |     97841183 |        5424777 |
+|   186 |   95 |    107679717 |        6229550 |
+|   188 |   96 |    119761075 |        7144091 |
+|   190 |   97 |    131561744 |        8187581 |
+|   192 |   98 |    145976674 |        9364975 |
+|   194 |   99 |    159999462 |       10659863 |
+|   196 |  100 |    177175687 |       12163298 |
+|   198 |  101 |    193814658 |       13809901 |
+|   200 |  102 |    214127742 |       15655672 |
+|   202 |  103 |    233846463 |       17749388 |
+|   204 |  104 |    257815889 |       20070486 |
+|   206 |  105 |    281006325 |       22606939 |
+|   208 |  106 |    309273526 |       25536557 |
+|   210 |  107 |    336500830 |       28700677 |
+|   212 |  108 |    369580714 |       32230861 |
+|   214 |  109 |    401535955 |       36173081 |
+|   216 |  110 |    440216206 |       40536922 |
+|   218 |  111 |    477420176 |       45278722 |
+|   220 |  112 |    522599564 |       50651799 |
+|   222 |  113 |    565900181 |       56463948 |
+|   224 |  114 |    618309598 |       62887775 |
+|   226 |  115 |    668662698 |       69995887 |
+|   228 |  116 |    729414880 |       77831323 |
+|   230 |  117 |    787556069 |       86238206 |
+|   232 |  118 |    857934016 |       95758929 |
+|   234 |  119 |    925042498 |      105965373 |
+|   236 |  120 |   1006016526 |      117166528 |
+|   238 |  121 |   1083451816 |      129476607 |
+|   240 |  122 |   1176632247 |      142960479 |
+|   242 |  123 |   1265323971 |      157402781 |
+|   244 |  124 |   1372440782 |      173577766 |
+|   246 |  125 |   1474111053 |      190809628 |
+|   248 |  126 |   1596482232 |      209715141 |
+|   250 |  127 |   1712934069 |      230272559 |
+|   252 |  128 |   1852762875 |      252745513 |
+|   254 |  129 |   1985250572 |      276599787 |
+|   256 |  130 |   2144943655 |      303235792 |
+|   258 |  131 |   2295793276 |      331516984 |
+|   260 |  132 |   2477017558 |      362302637 |
+|   262 |  133 |   2648697036 |      395600325 |
+|   264 |  134 |   2854536850 |      431894257 |
+|   266 |  135 |   3048609900 |      470256444 |
+|   268 |  136 |   3282202941 |      512858451 |
+|   270 |  137 |   3501931260 |      557745670 |
+|   272 |  138 |   3765465341 |      606668511 |
+|   274 |  139 |   4014007928 |      659140287 |
+|   276 |  140 |   4311652376 |      716217922 |
+|   278 |  141 |   4591045471 |      776165188 |
+|   280 |  142 |   4926987377 |      842498881 |
+|   282 |  143 |   5241548270 |      912274540 |
+|   284 |  144 |   5618445787 |      987874095 |
+|   286 |  145 |   5972426835 |     1068507788 |
+|   288 |  146 |   6395981131 |     1156161307 |
+|   290 |  147 |   6791769082 |     1247686189 |
+|   292 |  148 |   7267283603 |     1348832364 |
+|   294 |  149 |   7710782991 |     1454359806 |
+|   296 |  150 |   8241719706 |     1568768524 |
+|   298 |  151 |   8738236515 |     1690214836 |
+|   300 |  152 |   9332065811 |     1821766896 |
+|   302 |  153 |   9884604767 |     1958581588 |
+|   304 |  154 |  10548218751 |     2109271290 |
+|   306 |  155 |  11164542762 |     2266138871 |
+|   308 |  156 |  11902015724 |     2435848971 |
+|   310 |  157 |  12588998862 |     2614544391 |
+|   312 |  158 |  13410330482 |     2808510141 |
+|   314 |  159 |  14171344797 |     3009120113 |
+|   316 |  160 |  15085164571 |     3229731630 |
+|   318 |  161 |  15930619304 |     3458148016 |
+|   320 |  162 |  16942010457 |     3704939275 |
+|   322 |  163 |  17880232383 |     3964153268 |
+|   324 |  164 |  19002055537 |     4244706701 |
+|   326 |  165 |  20037346408 |     4533465777 |
+|   328 |  166 |  21280571390 |     4850870260 |
+|   330 |  167 |  22426253115 |     5178120469 |
+|   332 |  168 |  23796620378 |     5531727283 |
+|   334 |  169 |  25063227406 |     5900369830 |
+|   336 |  170 |  26577912084 |     6299880577 |
+|   338 |  171 |  27970034826 |     6709574675 |
+|   340 |  172 |  29642262229 |     7158963073 |
+|   342 |  173 |  31177474996 |     7620446934 |
+|   344 |  174 |  33014225318 |     8118481242 |
+|   346 |  175 |  34705254287 |     8636262789 |
+|   348 |  176 |  36728266430 |     9196920285 |
+|   350 |  177 |  38580626759 |     9768511147 |
+|   352 |  178 |  40806395661 |    10396040696 |
+|   354 |  179 |  42842199753 |    11037658075 |
+|   356 |  180 |  45278616586 |    11730538496 |
+|   358 |  181 |  47513679057 |    12446446419 |
+|   360 |  182 |  50189039868 |    13221751502 |
+|   362 |  183 |  52628839448 |    14010515381 |
+|   364 |  184 |  55562506886 |    14874753568 |
+|   366 |  185 |  58236270451 |    15754940959 |
+|   368 |  186 |  61437700788 |    16705334454 |
+|   370 |  187 |  64363670678 |    17683643273 |
+|   372 |  188 |  67868149215 |    18744292915 |
+|   374 |  189 |  71052718441 |    19816289281 |
+|   376 |  190 |  74884539987 |    20992425825 |
+|   378 |  191 |  78364039771 |    22186413139 |
+|   380 |  192 |  82532990559 |    23475079272 |
+|   382 |  193 |  86329680991 |    24795898388 |
+|   384 |  194 |  90881152117 |    26227197453 |
+|   386 |  195 |  95001297565 |    27670862550 |
+|   388 |  196 |  99963147805 |    29254036711 |
+|   390 |  197 | 104453597992 |    30852950986 |
+|   392 |  198 | 109837310021 |    32581366295 |
+|   394 |  199 | 114722988623 |    34345173894 |
+|   396 |  200 | 120585261143 |    36259212641 |
+|   398 |  201 | 125873325588 |    38179777473 |
+|   400 |  202 | 132247999328 |    40286153024 |
+
+
+APPENDIX D.  Version History
+
+Version 1.0:
+  Released on May 31, 2012.
