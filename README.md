@@ -1,10 +1,10 @@
-#Guide to using buckygen
+# Guide to using buckygen
 
 Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
 [Gunnar Brinkmann](mailto:gunnar.brinkmann@ugent.be) and [Brendan McKay](mailto:bdm@cs.anu.edu.au).
 
 
-##INTRODUCTION.
+## INTRODUCTION.
 
   `buckygen` is a program for the efficient generation of all nonisomorphic
   fullerenes.  These are triangulations where all vertices have degree
@@ -18,7 +18,7 @@ Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
   `buckygen` has been tested on Linux and Mac OS X.
 
 
-##INSTALLING `buckygen`.
+## INSTALLING `buckygen`.
 
   The latest version of `buckygen` can be obtained from
      http://caagt.ugent.be/buckygen/
@@ -32,7 +32,7 @@ Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
   Important: `splay.c` must be in the same directory as `buckygen.c`
 
 
-##RUNNING `buckygen`.
+## RUNNING `buckygen`.
 
   An overview of all options can also be found by executing `./buckygen`.
   Most parameters are the same as in `plantri`.  More information about
@@ -91,7 +91,7 @@ Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
   output file or res/mod parameters.
 
 
-##SWITCHES.
+## SWITCHES.
 
  * `-S#`  Output all fullerenes with 'i' vertices (# <= i <= n) instead of 
        only the fullerenes with 'n' vertices.  Since `buckygen` recursively
@@ -137,7 +137,7 @@ Author: [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be), in collaboration with
   `-q`   Work in 'quiet' mode: does not output any information to the standard error stream.
 
 
-##OUTPUT FORMATS.
+## OUTPUT FORMATS.
 
   `buckygen` can write graphs in a variety of different formats.
 
@@ -187,7 +187,7 @@ Each of those formats except for ascii code also has a standard header,
   Details of these formats is given in Appendices A and B.
 
 
-##EXAMPLES.
+## EXAMPLES.
 
   Below are some examples of possible execution parameters.
   
