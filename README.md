@@ -218,7 +218,7 @@ Each of those formats except for ascii code also has a standard header,
   Below are some examples of possible execution parameters.
   
     ./buckygen 65 -S32 -I
-    
+
   Generates and outputs all IPR fullerenes with at most 65 and at least 32
   vertices and writes them to the standard output stream in planar code.
 
@@ -229,11 +229,13 @@ Each of those formats except for ascii code also has a standard header,
   "`fuller_55_20`".
 
     ./buckygen 52 -ru
+
   Generates all fullerenes with 52 vertices, but does not output them.
   Also checks if the fullerenes have a spiral starting at a pentagon
   or a hexagon.
 
     ./buckygen 132 -Ig 10/200
+
   Splits the generation of all IPR fullerenes with 132 vertices in 200 parts
   and executes part 10 and outputs the fullerenes in `graph6` format to
   the standard output stream.
@@ -358,15 +360,10 @@ Each of those formats except for ascii code also has a standard header,
 
 ## APPENDIX C.  Fullerene Counts.
 
-  In this section we the counts of the fullerenes which were generated
-  with buckygen.
+  In this section we tabulate the counts of the fullerenes which were generated
+  with buckygen.  For the dual graphs, switch the number of vertices and faces.
 
-  The column headings in these tables are:
-
-  nv = number of vertices (or faces in the dual)
-  nf = number of faces (or vertices in the dual)
-
-|    nv |   nf |   fullerenes | IPR fullerenes |
+| # Vertices | # Faces | # fullerenes | IPR fullerenes |
 |------:|-----:|-------------:|---------------:|
 |    20 |   12 |            1 |              0 |
 |    22 |   13 |            0 |              0 |
