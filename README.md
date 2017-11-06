@@ -1,0 +1,2 @@
+# buckygen
+Generate fullerenes
