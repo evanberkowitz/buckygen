@@ -25,10 +25,10 @@ Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](htt
 - [Switches](#switches)
 - [Output formats](#output-formats)
 - [Examples](#examples)
-- [Appendix A.  Definition of `PLANAR CODE`](#appendix-a-definition-of-planar-code)
-- [Appendix B.  Definition of `GRAPH6` and `SPARSE6`](#appendix-b-definition-of-graph6-and-sparse6)
-- [Appendix C.  Fullerene Counts](#appendix-c-fullerene-counts)
-- [Appendix D.  Version History](#appendix-d-version-history)
+- [Appendix A.  Definition of `PLANAR CODE`](#appendix-a--definition-of-planar-code)
+- [Appendix B.  Definition of `GRAPH6` and `SPARSE6`](#appendix-b--definition-of-graph6-and-sparse6)
+- [Appendix C.  Fullerene Counts](#appendix--c-fullerene-counts)
+- [Appendix D.  Version History](#appendix--d-version-history)
 
 ## INTRODUCTION.
 
@@ -356,7 +356,7 @@ Each of those formats except for ascii code also has a standard header,
     The remaining pairs give the edges 0-1 1-2 5-6.
 
 
-APPENDIX C.  Fullerene Counts.
+## APPENDIX C.  Fullerene Counts.
 
   In this section we the counts of the fullerenes which were generated
   with buckygen.
@@ -561,7 +561,7 @@ APPENDIX C.  Fullerene Counts.
 |   400 |  202 | 132247999328 |    40286153024 |
 
 
-APPENDIX D.  Version History
+## APPENDIX D.  Version History
 
 Version 1.0:
   Released on May 31, 2012.
