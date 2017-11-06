@@ -1,3 +1,8 @@
+# buckygen specifics
+buckygen
+buckygen-prof
+buckygen-stats
+
 # Prerequisites
 *.d
 
