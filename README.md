@@ -1,5 +1,6 @@
 # buckygen
 
+| `buckygen` | |
 |-:|:-|
 |Author| [Jan Goedgebeur](mailto:jan.goedgebeur@ugent.be)
 |in collaboration with|[Gunnar Brinkmann](mailto:gunnar.brinkmann@ugent.be) and [Brendan McKay](mailto:bdm@cs.anu.edu.au)|
