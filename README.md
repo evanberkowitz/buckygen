@@ -15,6 +15,21 @@ Journal of Chemical Information and Modeling, 52(11):2910-2918, 2012. [arXiv:120
  * J. Goedgebeur and B.D. McKay, Recursive generation of IPR fullerenes,
 Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](http://arxiv.org/abs/1501.02680) [DOI:10.1007/s10910-015-0513-7](http://dx.doi.org/10.1007/s10910-015-0513-7)
 
+## TABLE OF CONTENTS
+
+- [buckygen](#buckygen)
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Installing `buckygen`](#installing-buckygen)
+- [Running `buckygen`](#running-buckygen)
+- [Switches](#switches)
+- [Output formats](#output-formats)
+- [Examples](#examples)
+- [Appendix A.  Definition of `PLANAR CODE`](#appendix-a-definition-of-planar-code)
+- [Appendix B.  Definition of `GRAPH6` and `SPARSE6`](#appendix-b-definition-of-graph6-and-sparse6)
+- [Appendix C.  Fullerene Counts](#appendix-c-fullerene-counts)
+- [Appendix D.  Version History](#appendix-d-version-history)
+
 ## INTRODUCTION.
 
   `buckygen` is a program for the efficient generation of all nonisomorphic
