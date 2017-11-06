@@ -27,8 +27,8 @@ Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](htt
 - [Examples](#examples)
 - [Appendix A.  Definition of `PLANAR CODE`](#appendix-a--definition-of-planar-code)
 - [Appendix B.  Definition of `GRAPH6` and `SPARSE6`](#appendix-b--definition-of-graph6-and-sparse6)
-- [Appendix C.  Fullerene Counts](#appendix--c-fullerene-counts)
-- [Appendix D.  Version History](#appendix--d-version-history)
+- [Appendix C.  Fullerene Counts](#appendix-c--fullerene-counts)
+- [Appendix D.  Version History](#appendix-d--version-history)
 
 ## INTRODUCTION.
 
