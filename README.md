@@ -563,5 +563,6 @@ Each of those formats except for ascii code also has a standard header,
 
 ## APPENDIX D.  Version History
 
-Version 1.0:
-  Released on May 31, 2012.
+|Version|               Date|                                         Commit|
+|-------|-------------------|-----------------------------------------------|
+|1.0    |   May 31, 2012    |   0ccdeab5bc22544216c31e413362608f84ee5366    |
