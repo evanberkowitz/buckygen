@@ -198,10 +198,11 @@ Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](htt
 Each of those formats except for ascii code also has a standard header,
   which is written to the output at the beginning:
 
-      format           header            written by default?
-    planar code     >>planar_code<<             yes
-      graph6        >>graph6<<                  no
-     sparse6        >>sparse6<<                 no
+| format | header | written by default? |
+|:-|:-|:-:|
+| `planar code` | `>>planar_code<<` | yes |
+| `graph6` | `>>graph6<<` | no |
+| `sparse6` | `>>sparse6<<` | no |
 
   In each case the header is written with no end-of-line characters after
   it (for portability reasons).  To write a header when the default is not
