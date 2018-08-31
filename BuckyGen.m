@@ -53,16 +53,16 @@ buckygen::usage = "buckygen[n_Integer, options]
     Options largely correspond to the command-line options available for the buckygen executable.
     They correspond as follows:
     
-    Flag Option  -> Default|Otherwise
-         \"Verbose\" -> False|True                 if False, simply return the list; if True print the stdout of running the buckygen executable.
+    Flag Option       ->   Default|Otherwise
+         \"Verbose\"    ->   False|True                 if False, simply return the list; if True print the stdout of running the buckygen executable.
          
-    -S   \"Start\" ->   False|s_Integer            if not False, produce fullerenes of degree s through n inclusive.
-    -d   \"Dual\"  ->   False|True                 if False, faces are triangles; if True vertices are degree 3.
-    -I   \"IPR\"   ->   False|True                 if False, ignore the isolated pentagon rule; if True, follow it.
-    -r   \"SpiralTest\" -> False|True              Completely ignored, totally unsupported.
-    -o   \"PreserveOrientation\" -> False|True     if False, ignore orientation information; otherwise consider it.
-                                                        As imbeddings are ignored, only affects results if \"RequireNonTrivialGroup\" -> True.
-    -V   \"RequireNontrivialGroup\" -> False,      if False, generate all fullerenes; if True only generate those with a nontrivial group.
+    -S   \"Start\"      ->   False|s_Integer            if not False, produce fullerenes of degree s through n inclusive.
+    -d   \"Dual\"       ->   False|True                 if False, faces are triangles; if True vertices are degree 3.
+    -I   \"IPR\"        ->   False|True                 if False, ignore the isolated pentagon rule; if True, follow it.
+    -r   \"SpiralTest\" ->   False|True                 Completely ignored, totally unsupported.
+    -o   \"PreserveOrientation\" -> False|True          if False, ignore orientation information; otherwise consider it.
+                                                          As imbeddings are ignored, only affects results if \"RequireNonTrivialGroup\" -> True.
+    -V   \"RequireNontrivialGroup\" -> False|Trure,     if False, generate all fullerenes; if True only generate those with a nontrivial group.
 
 "
 
