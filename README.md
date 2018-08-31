@@ -273,7 +273,7 @@ buckygen::usage = "buckygen[n_Integer, options]
     -V   "RequireNontrivialGroup" -> False|Trure,     if False, generate all fullerenes; if True only generate those with a nontrivial group.
 ```
 
-After it is installed, the package may be loaded via `Needs["BuckyGen\`"]`.
+After it is installed, the package may be loaded via ``Needs["BuckyGen`"]``.
 
 ## APPENDIX A.  Definition of `PLANAR CODE`.
 
