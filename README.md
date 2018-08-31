@@ -25,6 +25,7 @@ Journal of Mathematical Chemistry, 53(8):1702-1724, 2015. [arXiv:1501.02680](htt
 - [Switches](#switches)
 - [Output formats](#output-formats)
 - [Examples](#examples)
+- [Mathematica Package](#mathematica-package)
 - [Appendix A.  Definition of `PLANAR CODE`](#appendix-a--definition-of-planar-code)
 - [Appendix B.  Definition of `GRAPH6` and `SPARSE6`](#appendix-b--definition-of-graph6-and-sparse6)
 - [Appendix C.  Fullerene Counts](#appendix-c--fullerene-counts)
@@ -241,6 +242,36 @@ Each of those formats except for ascii code also has a standard header,
   and executes part 10 and outputs the fullerenes in `graph6` format to
   the standard output stream.
 
+
+## MATHEMATICA PACKAGE
+
+`BuckyGen.m` provides the `BuckyGen` package for Mathematica.
+It implements one function, `buckygen`, which calls the `buckygen` executable.
+It assumes that that the `buckygen` executable is in `Environment["PATH"]` in Mathematica.
+
+You can simply copy `BuckyGen.m` to your preferred location where Mathematica can find it,
+`FileNameJoin[{$UserBaseDirectory, "Applications"}]` for example.
+
+The usage is described in the package:
+
+```mathematica
+buckygen::usage = "buckygen[n_Integer, options]
+    n is the degree of the fullerenes you wish to generate.
+    
+    Options largely correspond to the command-line options available for the buckygen executable.
+    They correspond as follows:
+    
+    Flag Option  -> Default|Otherwise
+         \"Verbose\" -> False|True                 if False, simply return the list; if True print the stdout of running the buckygen executable.
+         
+    -S   \"Start\" ->   False|s_Integer            if not False, produce fullerenes of degree s through n inclusive.
+    -d   \"Dual\"  ->   False|True                 if False, faces are triangles; if True vertices are degree 3.
+    -I   \"IPR\"   ->   False|True                 if False, ignore the isolated pentagon rule; if True, follow it.
+    -r   \"SpiralTest\" -> False|True              Completely ignored, totally unsupported.
+    -o   \"PreserveOrientation\" -> False|True     if False, ignore orientation information; otherwise consider it.
+                                                        As imbeddings are ignored, only affects results if \"RequireNonTrivialGroup\" -> True.
+    -V   \"RequireNontrivialGroup\" -> False,      if False, generate all fullerenes; if True only generate those with a nontrivial group.
+```
 
 ## APPENDIX A.  Definition of `PLANAR CODE`.
 
