@@ -19,5 +19,8 @@ stats :
 	rm -rf buckygen-stats
 	${CC} $(CFLAGS) -DSTATS buckygen.c -o buckygen-stats
 
+mathematica :
+	ln -s $(shell wolframscript -code 'FileNameJoin[{Directory[],"BuckyGen.m"}]') $(shell wolframscript -code 'FileNameJoin[{$$UserBaseDirectory,"Applications","BuckyGen.m"}]')
+
 clean :
 	rm -f buckygen
