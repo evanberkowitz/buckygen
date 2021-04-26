@@ -247,6 +247,12 @@ typedef struct sp {
 
 SPLAYNODE *worklist = NULL;
 
+/* forward declaration of outputnode */
+int outputnode(SPLAYNODE *liste);
+
+/* forward declaration of comparenodes */
+int comparenodes(unsigned char *canong, int codelength, int type, SPLAYNODE *list);
+
 /* extra arguments to pass to scan procedure */
 #define SCAN_ARGS
 
@@ -940,7 +946,7 @@ int comparenodes(unsigned char *canong, int codelength, int type, SPLAYNODE *lis
 
 /****************************************/
 
-outputnode(SPLAYNODE *liste)
+int outputnode(SPLAYNODE *liste)
  {
     fprintf(stderr, "Error: outputting of nodes not allowed\n");
     exit(1);
