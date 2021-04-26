@@ -3,8 +3,7 @@
 #
 
 SHELL = /bin/sh
-CC = gcc
-CFLAGS = -O4
+CFLAGS += -O3
 
 all : clean buckygen
 

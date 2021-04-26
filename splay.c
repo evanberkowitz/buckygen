@@ -1,10 +1,12 @@
 /* splay.c  - code for splay trees    Version of August 18, 2001.
+ * Author: Brendan McKay  bdm@cs.anu.edu.au
 
    This file is not meant to be compiled separately, but to be
    #included into other programs.  Use it like this:
 
    1. Define a node type SPLAYNODE.  It must be a structure that
-   contains at least the pointer fields left, right and parent.
+   contains at least the pointer fields left, right and parent of
+   type SPLAYNODE*.
    Also define a macro SPLAYNODESIZE giving the size of an object
    of type SPLAYNODE, unless  sizeof(SPLAYNODE) is adequate.
 
@@ -115,7 +117,7 @@
 
 /*********************************************************************/
 
-static void
+void
 SPLAY_SCAN(SPLAYNODE *root SCAN_ARGS)
 /* Do ACTION(p) for each node of the tree, in inorder.  Nonrecursive! */
 {
@@ -159,7 +161,7 @@ SPLAY(SPLAYNODE *p)
 /* Splay the node p.  It becomes the new root. */
 {
     SPLAYNODE *q,*r,*s;
-    SPLAYNODE *a,*b,*c,*d;
+    SPLAYNODE *a,*b,*c;
     int code;
 
 #define LCHILD(x,y) {(x)->left = y; if (y) (y)->parent = x;}
@@ -183,16 +185,8 @@ SPLAY(SPLAYNODE *p)
 	r = q->parent;
 	if (r)
 	{
-	    if (r->left == q)
-	    {
-		code = (code == S_L ? S_LL : S_LR);
-		d = r->right;
-	    }
-	    else
-	    {
-		code = (code == S_L ? S_RL : S_RR);
-		d = r->left;
-	    }
+	    if (r->left == q) code = (code == S_L ? S_LL : S_LR);
+	    else              code = (code == S_L ? S_RL : S_RR);
 	    s = r->parent;
 	    p->parent = s;
 	    if (s)
@@ -246,13 +240,13 @@ SPLAY(SPLAYNODE *p)
 
 /*********************************************************************/
 
-static void
+void
 SPLAY_INSERT(SPLAYNODE **to_root  INSERT_ARGS)
 /* Do insertion operation.  On return, the object being inserted
    is at the root of the tree regardless of whether a new node
    needed to be created for it. */
 {
-    int cmp;
+    int i,cmp;
     SPLAYNODE *p,*ppar,*new_node;
 
     p = *to_root;
@@ -312,12 +306,12 @@ SPLAY_INSERT(SPLAYNODE **to_root  INSERT_ARGS)
 
 /*********************************************************************/
 
-static SPLAYNODE*
+SPLAYNODE*
 SPLAY_LOOKUP(SPLAYNODE **to_root  LOOKUP_ARGS)
 /* Do a look-up operation.  If found, return a pointer to the
    node containing it.  If not, return NULL. */
 {
-    int cmp;
+    int i,cmp;   /* i is available for COMPARE */
     SPLAYNODE *p;
 
     p = *to_root;
@@ -343,7 +337,7 @@ SPLAY_LOOKUP(SPLAYNODE **to_root  LOOKUP_ARGS)
 
 /*********************************************************************/
 
-static SPLAYNODE*
+void
 SPLAY_DELETE(SPLAYNODE **to_root, SPLAYNODE *p)
 /* Remove node p from the tree and free it. */
 {
@@ -393,12 +387,14 @@ SPLAY_DELETE(SPLAYNODE **to_root, SPLAYNODE *p)
      free(p);
 }
 
+/*********************************************************************/
+
 /* The following shows the tree structure for debugging purposes.
    If you define SPLAY_DUMP you must also define DUMP_ARGS,
    DUMP_LEFT, DUMP_RIGHT and DUMP_ACTION(p). */
 
 #ifdef SPLAY_DUMP
-static void
+void
 SPLAY_DUMP(SPLAYNODE *p DUMP_ARGS)
 {
     int i;
