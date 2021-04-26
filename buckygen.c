@@ -230,6 +230,9 @@ typedef struct e /* The data type used for edges */
  * are generated.
  */
 
+
+
+
 //Temp, for debugging only
 #define IRRED_CAP_5_5 1
 #define IRRED_CAP_2_8 2
@@ -246,6 +249,11 @@ typedef struct sp {
 
 
 SPLAYNODE *worklist = NULL;
+
+
+//Added to avoid compiler warnings about implicit declaration of methods
+void outputnode(SPLAYNODE *liste);
+int comparenodes(unsigned char *canong, int codelength, int type, SPLAYNODE *list);
 
 /* extra arguments to pass to scan procedure */
 #define SCAN_ARGS
@@ -940,7 +948,7 @@ int comparenodes(unsigned char *canong, int codelength, int type, SPLAYNODE *lis
 
 /****************************************/
 
-outputnode(SPLAYNODE *liste)
+void outputnode(SPLAYNODE *liste)
  {
     fprintf(stderr, "Error: outputting of nodes not allowed\n");
     exit(1);
